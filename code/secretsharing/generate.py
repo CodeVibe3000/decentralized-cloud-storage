@@ -1,5 +1,5 @@
 from .utils import *
-import base64
+
 
 def generate_shares_from_file(filename, num_shares, req):
     data = open(filename, "rb").read()
@@ -22,7 +22,6 @@ def generate_shares_from_file(filename, num_shares, req):
         for point in share:
             share_exported += str(point[0]) + "," + str(point[1]) + ";"
 
-        share_exported = base64.b64encode(share_exported.encode('ascii'))
-        shares_exported.append(share_exported.decode('ascii'))
+        shares_exported.append(share_exported)
 
     return shares_exported[:num_shares]
