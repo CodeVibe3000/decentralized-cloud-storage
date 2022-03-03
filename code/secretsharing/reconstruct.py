@@ -1,9 +1,16 @@
 from .utils import *
 import base64
-import binascii
+import struct
 
 
-def reconstruct_secret_from_file(given_shares):
+def convert_string_to_bytes(string):
+    bytesv = b''
+    for i in string:
+        bytesv += struct.pack("B", ord(i))
+    return bytesv
+
+
+def reconstruct_secret_from_file(given_shares, file_name):
     
     shares_points = []
 
@@ -27,10 +34,7 @@ def reconstruct_secret_from_file(given_shares):
     for shares in reconstructions:
         reconstructed_numbers.append(reconstruct_secret(shares))
 
-    reconstructed_binary = " ".join(["{0:b}".format(i) for i in reconstructed_numbers])
+    reconstructed_secret = bytes(reconstructed_numbers)
 
-    reconstructed_secret = "".join([chr(int(binary, 2)) for binary in reconstructed_binary.split(" ")])
-
-    return reconstructed_secret
-
-    
+    with open("reconstructed_"+file_name, 'wb') as f:
+        f.write(reconstructed_secret)

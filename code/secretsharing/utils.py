@@ -42,8 +42,8 @@ def generate_shares(n, m, secret):
 	coefficients = coeff(m, secret)
 	shares = []
 
-	for i in range(1, n+1):
-		x = random.randrange(1, FIELD_SIZE)
-		shares.append((x, polynom(x, coefficients)))
+	numbers = random.sample(range(1, FIELD_SIZE), n)
+
+	shares = [(x, polynom(x, coefficients)) for x in numbers]
 
 	return shares

@@ -1,16 +1,10 @@
 from .utils import *
 import base64
-import random
 
 def generate_shares_from_file(filename, num_shares, req):
-    data = open(filename, "r").read()
-    message_bytes = data.encode('ascii')
-    base64_bytes = base64.b64encode(message_bytes)
-    decoded_message_bytes = base64.b64decode(base64_bytes)
-    decoded_message = decoded_message_bytes.decode('ascii')
+    data = open(filename, "rb").read()
 
-    binary_encoded = [int(format(ord(x), 'b'), 2) for x in decoded_message]
-
+    binary_encoded = [x for x in data]
 
     shares = [[] for i in binary_encoded]
 
