@@ -1,6 +1,6 @@
 from secretsharing import *
 
-file_name = "Andante_In_D_Minor.mscz"
+file_name = "lipsum.txt"
 
 shares = generate_shares_from_file(file_name, 10, 3)
 
