@@ -25,4 +25,4 @@ def generate_shares_from_file(filename, num_shares, req):
         share_exported = base64.b64encode(share_exported.encode('ascii'))
         shares_exported.append(share_exported.decode('ascii'))
 
-    return shares_exported
+    return shares_exported[:num_shares]

@@ -1,6 +1,6 @@
 from .utils import *
 import base64
-import struct
+import os
 
 
 def convert_string_to_bytes(string):
