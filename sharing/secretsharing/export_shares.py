@@ -5,5 +5,4 @@ def export_shares(shares, file_name):
         with open(file_name+"_share_" + str(i) + ".txt", "wb") as f:
             uncompressed = bytes(shares[i].encode())
             compressed = zlib.compress(uncompressed, zlib.Z_BEST_COMPRESSION)
-            print((float(len(uncompressed)) - float(len(compressed))) / float(len(uncompressed)))
             f.write(compressed)
