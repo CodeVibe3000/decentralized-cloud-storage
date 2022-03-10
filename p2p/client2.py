@@ -1,4 +1,4 @@
-from peer2peer import *
+from p2p import *
 
-p2p = PeerToPeer()
-p2p.receive_file(50000, "received.jpg")
+peer = PeerToPeer()
+peer.receive_file(50000)
