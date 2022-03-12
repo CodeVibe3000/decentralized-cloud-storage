@@ -1,4 +1,5 @@
 from p2p import *
 
-peer = PeerToPeer()
-peer.receive_file(50000)
+peer = PeerToPeer(50000)
+peer.listen()
+# print(peer.receive_message())
