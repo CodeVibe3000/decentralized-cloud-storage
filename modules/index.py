@@ -11,6 +11,6 @@ shares = generate_shares_from_file(file_name, int(sys.argv[2]), int(sys.argv[3])
 
 export_shares(shares, file_name)
 
-imported = import_shares(file_name, 3)
+imported = import_shares(file_name, int(sys.argv[3]))
 
-reconstructed = reconstruct_secret_from_file(imported[:3], file_name)
+reconstructed = reconstruct_secret_from_file(imported[:int(sys.argv[3])], file_name)

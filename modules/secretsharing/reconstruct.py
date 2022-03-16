@@ -1,9 +1,13 @@
 from .utils import *
-import os
+from .constants import bytes_combined
 
 def reconstruct_secret_from_file(given_shares, file_name):
     
-    shares_points = given_shares
+    shares_points = []
+
+    for share in given_shares:
+        it = iter(share)
+        shares_points.append(list(zip(it, it)))
 
     reconstructions = [[] for i in range(len(max(shares_points, key=len)))]
 
@@ -20,8 +24,6 @@ def reconstruct_secret_from_file(given_shares, file_name):
 
     reconstructed_numbers_new = []
     reconstructed_strings_new = []
-
-    bytes_combined = 8
 
     for i in range(len(reconstructed_strings)):
         number = reconstructed_strings[i]
