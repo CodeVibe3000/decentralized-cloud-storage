@@ -1,1 +1,1 @@
-bytes_combined = 6
+bytes_combined = 8
