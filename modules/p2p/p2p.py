@@ -12,10 +12,10 @@ class PeerToPeer:
             s.connect((ip, port))
             s.sendall(bytes(message, "utf-8"))
 
-    def send_file(self, ip, port, filepath, filename):
+    def send_file(self, ip, port, filepath, filename, fileorshare="file"):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((ip, port))
-            s.sendall(b"\n".join([b"file", open(filepath, "rb").read(), bytes(filename, encoding="utf-8")]))
+            s.sendall(b"\n".join([bytes(fileorshare, 'utf-8'), bytes(self.sport), open(filepath, "rb").read(), bytes(filename, 'utf-8')]))
 
     def receive_message(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -38,16 +38,17 @@ class PeerToPeer:
                 filename = data[-1].decode()
                 if(data[0] != b"file"):
                     return None
-                data = b"\n".join(data[1:-1])
+                data = b"\n".join(data[2:-1])
                 return data
 
     def request_file(self, ip, port, filename):
         # Send token for file to verify ownership
+        print(ip, port, filename)
         self.send_message(ip, port, "\n".join(["request_file", str(self.sport), filename]))
         data = (self.receive_file())
         # Put file in correct place
         if data is not None:
-            with open("received_"+filename, "wb") as f:
+            with open("req_"+filename, "wb") as f:
                 f.write(data)
 
 
@@ -65,3 +66,10 @@ class PeerToPeer:
                         filename = data[2].decode()
                         # Add search for file in directory and add security to make sure user owns the file being sent
                         self.send_file(addr[0], source_port, filename, filename)
+                    elif data[0] == b"share":
+                        share = b"\n".join(data[2:-1])
+                        filename = data[-1].decode()
+                        if data is not None:
+                            with open("r_"+filename, "wb") as f:
+                                f.write(share) 
+                        
