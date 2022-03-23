@@ -21,9 +21,9 @@ class PeerToPeer:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             s.bind(('0.0.0.0', self.sport))
-            s.listen()
-            conn, addr = s.accept()
+            s.listen() 
             while True:
+                conn, addr = s.accept()
                 data = conn.recv(1024)
                 return data
 
@@ -32,8 +32,8 @@ class PeerToPeer:
             s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             s.bind(('0.0.0.0', self.sport))
             s.listen()
-            conn, addr = s.accept()
             while True:
+                conn, addr = s.accept()
                 data = conn.recv(10**9).split(b"\n")
                 filename = data[-1].decode()
                 if(data[0] != b"file"):
@@ -43,7 +43,6 @@ class PeerToPeer:
 
     def request_file(self, ip, port, filename):
         # Send token for file to verify ownership
-        print(ip, port, filename)
         self.send_message(ip, port, "\n".join(["request_file", str(self.sport), filename]))
         data = (self.receive_file())
         # Put file in correct place
@@ -55,10 +54,10 @@ class PeerToPeer:
     def listen(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            s.bind(('0.0.0.0', self.sport))
+            s.bind(('127.0.0.1', self.sport))
             s.listen()
-            conn, addr = s.accept()
             while True:
+                conn, addr = s.accept()
                 data = conn.recv(10**9).split(b"\n")
                 if(data != [b""]):
                     if data[0] == b"request_file":
@@ -70,6 +69,6 @@ class PeerToPeer:
                         share = b"\n".join(data[2:-1])
                         filename = data[-1].decode()
                         if data is not None:
-                            with open("r_"+filename, "wb") as f:
+                            with open("rec_"+filename, "wb") as f:
                                 f.write(share) 
                         
