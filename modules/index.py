@@ -27,3 +27,4 @@ for i in range(3):
 imported = import_shares("req_rec_"+file_name, int(sys.argv[3]))
 
 reconstructed = reconstruct_secret_from_file(imported[:int(sys.argv[3])], file_name)
+
